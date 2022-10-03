@@ -1,0 +1,21 @@
+Olemid
+Film
+- pealkiri, tootmisaasta, kestus, 
+- žanrid (mitmevrt.atr.), lühikokkuvõte, 
+- tsitaadid (mitmevrt.atr.), 
+- reiting (mitmevrt.atr.) (tuletatud)
+Näitleja
+- rollid (mitmevrt.atr.), nimi (liitatr.), 
+- sünniaeg, vanus (tuletatud), 
+- pilt, pikkus, filmid (mitmevrt.atr.) 
+Lavastaja e režissöör
+- rollid (mitmevrt.atr.), nimi (liitatr.), vanus, 
+- pilt (mitmevrt.atr.), pikkus, 
+- filmid (mitmevrt.atr.)
+Filmistuudio
+- nimetus, aadress (liitatr.), 
+- filmid
+
+
+
+
