@@ -1,6 +1,8 @@
 <?php
-	require_once "../../../config_vp2022.php";
+	require_once "fnc_general.php";
+	require_once "fnc_user.php";
 	
+	$notice = null;
     $first_name = null;
     $last_name = null;
     $email = null;
@@ -28,9 +30,26 @@
 	if($_SERVER["REQUEST_METHOD"] == "POST"){
 		if(isset($_POST["user_data_submit"])){
 			
-			$first_name = $_POST["first_name_input"];
+			if(isset($_POST["first_name_input"]) and !empty($_POST["first_name_input"])){
+				$first_name = test_input($_POST["first_name_input"]);
+				if($first_name != $_POST["first_name_input"]){
+					$first_name_error = "Eesnimest eemaldati sobimatuid tähemärke, palun kontrolli!";
+				}
+			} else {
+				$first_name_error = "Palun sisesta eesnimi!";
+			}
+			
 			$last_name = $_POST["last_name_input"];
-			$gender = $_POST["gender_input"];
+			
+			if(isset($_POST["gender_input"]) and !empty($_POST["gender_input"])){
+				if(filter_var($_POST["gender_input"], FILTER_VALIDATE_INT) and $_POST["gender_input"] > 0 and $_POST["gender_input"] <= 2){
+					$gender = $_POST["gender_input"];
+				} else {
+					$gender_error = "Palun kontrolli sugu sisestust!";
+				}
+			} else {
+				$gender_error = "Palun määra oma sugu!";
+			}
 			
 			$birth_day = $_POST["birth_day_input"];
 			$birth_month = $_POST["birth_month_input"];
@@ -45,23 +64,38 @@
 				}
 			}
 			
-			$email = $_POST["email_input"];
+			if(isset($_POST["email_input"]) and !empty($_POST["email_input"])){
+				if(filter_var($_POST["email_input"], FILTER_VALIDATE_EMAIL)){
+					$email = $_POST["email_input"];
+				} else {
+					$email_error = "Palun kontrolli e-maili aadressi!";
+				}
+			} else {
+				$email_error = "Palun sisesta oma e-maili aadress!";
+			}
 			
+			//kontrollime salasõna
+			if(isset($_POST["password_input"]) and !empty($_POST["password_input"])){
+				if(strlen($_POST["password_input"]) < 8){
+					$password_error = "Palun sisesta pikem salasõna, vähemalt 8 märki!";
+				}
+			} else {
+				$password_error = "Palun sisesta salasõna!";
+			}
+			
+			if(isset($_POST["confirm_password_input"]) and !empty($_POST["confirm_password_input"])){
+				if($_POST["confirm_password_input"] != $_POST["password_input"]){
+					$confirm_password_error = "Sisestatud salasõnad on erinevad!";
+				}
+			} else {
+				$confirm_password_error = "Palun sisesta salasõna kaks korda!";
+			}
 			
 			
             //kui kõik kombes, salvestame uue kasutaja
             if(empty($firstname_error) and empty($last_name_error) and empty($birth_month_error) and empty($birth_year_error) and empty($birth_day_error) and empty($birth_date_error) and empty($gender_error) and empty($email_error) and empty($password_error) and empty($confirm_password_error)){
 				//salvestame kasutaja
-				$conn = new mysqli($server_host, $server_user_name, $server_password, $database);
-				$conn->set_charset("utf8");
-				$stmt = $conn->prepare("INSERT INTO vp_users_2 (firstname, lastname, birthdate, gender, email, password) values(?,?,?,?,?,?)");
-				echo $conn->error;
-				//krüpteerime parooli
-				$pwd_hash = password_hash($_POST["password_input"], PASSWORD_DEFAULT); 
-				$stmt->bind_param("sssiss", $first_name, $last_name, $birth_date, $gender, $email, $pwd_hash);
-				$stmt->execute();
-				$stmt->close();
-				$conn->close();
+				$notice = sign_up($first_name, $last_name, $birth_date, $gender, $email, $_POST["password_input"]);
 			}
 		}
 	}
@@ -147,9 +181,9 @@
 	  <input name="password_input" id="password_input" type="password"><span><?php echo $password_error; ?></span><br>
 	  <label for="confirm_password_input">Korrake salasõna:</label><br>
 	  <input name="confirm_password_input" id="confirm_password_input" type="password"><span><?php echo $confirm_password_error; ?></span><br>
-	  <input name="user_data_submit" type="submit" value="Loo kasutaja">
+	  <input name="user_data_submit" type="submit" value="Loo kasutaja"><span><?php echo $notice; ?></span>
 	</form>
-	<hr>
-    
-  </body>
-</html>
+	
+	<p>Tagasi <a href="page.php">avalehele</a></p>
+
+<?php require_once "footer.php";?>

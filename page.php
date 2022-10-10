@@ -1,5 +1,8 @@
 <?php
+	session_start();
 	require_once "../../../config_vp2022.php";
+	require_once "fnc_user.php";
+	
 	//echo $server_host;
 	$author_name = "Andrus Rinde";
 	$full_time_now = date("d.m.Y H:i:s");
@@ -169,30 +172,8 @@
 	
 	$login_error = null;
 	if(isset($_POST["login_submit"])){
-        $conn = new mysqli($server_host, $server_user_name, $server_password, $database);
-		$conn->set_charset("utf8");
-		$stmt = $conn->prepare("SELECT password FROM vp_users_2 WHERE email = ?");
-        echo $conn->error;
-        $stmt->bind_param("s", $_POST["email_input"]);
-        $stmt->bind_result($password_from_db);
-        $stmt->execute();
-        if($stmt->fetch()){
-            //kasutaja on olemas, parool tuli ...
-            if(password_verify($_POST["password_input"], $password_from_db)){
-                //parool õige, oleme sees!
-                $stmt->close();
-                $conn->close();
-                header("Location: home.php");
-                //exit();
-            } else {
-                $login_error = "Kasutajatunnus või salasõna oli vale!";
-            }
-        } else {
-            $login_error = "Kasutajatunnus või salasõna oli vale!";
-        }
-        
-        $stmt->close();
-        $conn->close();
+        //login sisse
+		$login_error = sign_in($_POST["email_input"], $_POST["password_input"]);
     }
 ?>
 <!DOCTYPE html>
@@ -213,6 +194,7 @@
 	<input type="password" name="password_input" placeholder="salasõna">
 	<input type="submit" name="login_submit" value="Logi sisse"><span><strong><?php echo $login_error; ?></strong></span>
 </form>
+<p>Või <a href="add_user.php">loo</a> endale kasutaja!</p>
 <hr>
 <p>Lehe avamise hetk: <?php echo $weekdaynames_et[$weekday_now - 1] .", " .$full_time_now;?></p>
 <p>Praegu on <?php echo $part_of_day;?>.</p>
@@ -246,7 +228,4 @@
 	<input type="submit" id="photo_submit" name="photo_submit" value="Määra foto">
 </form>
 <?php echo $photo_html; ?>
-<hr>
-
-</body>
-</html>
+<?php require_once "footer.php";?>
