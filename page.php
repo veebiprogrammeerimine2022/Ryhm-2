@@ -167,6 +167,33 @@
 		}
 	}
 	
+	$login_error = null;
+	if(isset($_POST["login_submit"])){
+        $conn = new mysqli($server_host, $server_user_name, $server_password, $database);
+		$conn->set_charset("utf8");
+		$stmt = $conn->prepare("SELECT password FROM vp_users_2 WHERE email = ?");
+        echo $conn->error;
+        $stmt->bind_param("s", $_POST["email_input"]);
+        $stmt->bind_result($password_from_db);
+        $stmt->execute();
+        if($stmt->fetch()){
+            //kasutaja on olemas, parool tuli ...
+            if(password_verify($_POST["password_input"], $password_from_db)){
+                //parool õige, oleme sees!
+                $stmt->close();
+                $conn->close();
+                header("Location: home.php");
+                //exit();
+            } else {
+                $login_error = "Kasutajatunnus või salasõna oli vale!";
+            }
+        } else {
+            $login_error = "Kasutajatunnus või salasõna oli vale!";
+        }
+        
+        $stmt->close();
+        $conn->close();
+    }
 ?>
 <!DOCTYPE html>
 <html lang="et">
@@ -179,6 +206,14 @@
 <h1><?php echo $author_name;?> programmeerib veebi</h1>
 <p>See leht on loodud õppetöö raames ja ei sisalda tõsiseltvõetavat sisu!</p>
 <p>Õppetöö toimus <a href="https://www.tlu.ee" target="_blank">Tallinna Ülikoolis</a> Digitehnoloogiate instituudis.</p>
+<hr>
+<h2>Logi sisse</h2>
+<form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+	<input type="email" name="email_input" placeholder="Kasutajatunnus ehk e-post">
+	<input type="password" name="password_input" placeholder="salasõna">
+	<input type="submit" name="login_submit" value="Logi sisse"><span><strong><?php echo $login_error; ?></strong></span>
+</form>
+<hr>
 <p>Lehe avamise hetk: <?php echo $weekdaynames_et[$weekday_now - 1] .", " .$full_time_now;?></p>
 <p>Praegu on <?php echo $part_of_day;?>.</p>
 <p>Semestri pikkus on <?php echo $semester_duration_days;?> päeva. See on kestnud juba <?php echo $from_semester_begin_days; ?> päeva.</p>
