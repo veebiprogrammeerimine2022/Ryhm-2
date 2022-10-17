@@ -19,5 +19,6 @@
 ?>
 <ul>
 	<li><a href="?logout=1">Logi välja</a></li>
+	<li><a href="gallery_photo_upload.php">Fotode galeriisse üleslaadimine</a></li>
 </ul>
 <?php require_once "footer.php";?>
