@@ -14,6 +14,8 @@
 	}
 
 	require_once "header.php";
+	
+	echo "<p>Sisse loginud: " .$_SESSION["firstname"] ." " .$_SESSION["lastname"] .".</p> \n";
 ?>
 <ul>
 	<li><a href="?logout=1">Logi välja</a></li>
