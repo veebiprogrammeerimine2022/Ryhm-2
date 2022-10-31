@@ -3,6 +3,13 @@
 <head>
 	<meta charset="utf-8">
 	<title>Vinge veebisüsteem</title>
+	<?php
+		if(isset($style_sheets)){
+			echo '<link rel="stylesheet" href="';
+			echo $style_sheets;
+			echo '">' ."\n";
+		}
+	?>
 </head>
 <body>
 <img src="pics/vp_banner_gs.png" alt="bänner">

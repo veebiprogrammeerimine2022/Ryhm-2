@@ -56,25 +56,16 @@
 				$new_w = round($image_w / ($image_h / $h));
 			}
 		} else { //kui on vaja kindlat suurust, kärpimist
-			
-			if($w == $h){ //ruudukujuline
-				if($image_w > $image_h){
-					$cut_size_w = $image_h;
-					$cut_x = round(($image_w - $cut_size_w) / 2);
-				} else {
-					$cut_size_h = $image_w;
-					$cut_y = round(($image_h - $cut_size_h) / 2);
-				}
+
+			if($image_w > $image_h){
+				$cut_size_w = $image_h;
+				$cut_x = round(($image_w - $cut_size_w) / 2);
 			} else {
-				if($image_w > $image_h){
-					$cut_size_w = $image_h;
-					$cut_x = round(($image_w - $cut_size_w) / 2);
-				} else {
-					$cut_size_h = $image_w;
-					$cut_y = round(($image_h - $cut_size_h) / 2);
-				}
+				$cut_size_h = $image_w;
+				$cut_y = round(($image_h - $cut_size_h) / 2);
 			}
 		}
+	}
 		
 		$temp_image = imagecreatetruecolor($new_w, $new_h);
 		//säilitame vajadusel läbipaistvuse (png ja gif piltide jaoks

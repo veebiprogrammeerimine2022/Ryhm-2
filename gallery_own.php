@@ -17,7 +17,7 @@
 	$privacy = 2;
 	$page = 1;
 	$limit = 5;
-	$photo_count = count_photos($privacy);
+	$photo_count = count_own_photos();
 	//kontrollime, mis lehel oleme ja kas selle numbriga leht on reaalne
 	if(!isset($_GET["page"]) or $_GET["page"] < 1){
 		$page = 1;
@@ -37,6 +37,7 @@
 	<li><a href="?logout=1">Logi välja</a></li>
 	<li><a href="home.php">Avalehele</a></li>
 </ul>
+<h2>Minu oma pildid</h2>
 <p>
 <?php
 	//Eelmine leht | Järgmine leht
@@ -55,7 +56,7 @@
 ?>
 </p>
 <div class="gallery">
-	<?php echo read_public_photo_thumbs($privacy, $page, $limit);?>
+	<?php echo read_own_photo_thumbs($page, $limit);?>
 </div>
 
 <?php require_once "footer.php"; ?>
