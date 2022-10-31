@@ -14,16 +14,17 @@
 	}
 	
 	require_once "fnc_photo_upload.php";
+	require_once "fnc_general.php";
 
 	$file_type = null;
 	$photo_error = null;
-	$photo_file_size_limit = 1.5 * 1024 * 1024;
-	$photo_name_prefix = "vp_";
 	$photo_file_name = null;
-	$normal_photo_max_w = 800;
-	$normal_photo_max_h = 450;
+	$alt = null;
+	$privacy = 1;
 	
 	if($_SERVER["REQUEST_METHOD"] == "POST"){
+		$alt = test_input($_POST["alt_input"]);
+		$privacy = filter_var($_POST["privacy_input"], FILTER_VALIDATE_INT);
 		if(isset($_POST["photo_submit"])){
 			//var_dump($_POST);
 			//var_dump($_FILES);
@@ -55,10 +56,30 @@
 					//muudame pildi suurust
 					$normal_photo = resize_photo($temp_photo, $normal_photo_max_w, $normal_photo_max_h);
 					//salvestame v'iksemaks tehtud pildi
-					save_photo($normal_photo, "photo_upload_normal/" .$photo_file_name, $file_type);
+					$photo_error = save_photo($normal_photo, $gallery_photo_normal_folder .$photo_file_name, $file_type);
+					if(empty($photo_error)){
+						//teeme pisipildi (thumbnail)
+						$thumbnail = resize_photo($temp_photo, $thumbnail_photo_w, $thumbnail_photo_h, false);
+						$photo_error = save_photo($thumbnail, $gallery_photo_thumbnail_folder .$photo_file_name, $file_type);
+					}
 					
+					if(empty($photo_error)){
 					// ajutine fail: $_FILES["photo_input"]["tmp_name"]
-					move_uploaded_file($_FILES["photo_input"]["tmp_name"], "photo_upload_original/" .$photo_file_name);
+						if(move_uploaded_file($_FILES["photo_input"]["tmp_name"], $gallery_photo_original_folder .$photo_file_name) == false){
+							$photo_error = 1;
+						}
+					}
+					
+					if(empty($photo_error)){
+						$photo_error = store_photo_data($photo_file_name, $alt, $privacy);
+					}
+					if(empty($photo_error)){
+						$photo_error = "Pilt edukalt üles laetud!";
+						$alt = null;
+						$privacy = 1;
+					} else {
+						$photo_error = "Pildi üleslaadimisel tekkis tõrkeid!";
+					}
 				}
 			}
 		}//if photo_submit
@@ -78,15 +99,15 @@
 	<input type="file" name="photo_input" id="photo_input">
 	<br>
 	<label for="alt_input">Alternatiivtekst (alt):</label>
-	<input type="text" name="alt_input" id="alt_input" placeholder="alternatiivtekst ...">
+	<input type="text" name="alt_input" id="alt_input" placeholder="alternatiivtekst ..." value="<?php echo $alt; ?>">
 	<br>
-	<input type="radio" name="privacy_input" id="privacy_input_1" value="1">
+	<input type="radio" name="privacy_input" id="privacy_input_1" value="1"<?php if($privacy == 1){echo " checked";}?>>
 	<label for="privacy_input_1">Privaatne (ainult ise näen)</label>
 	<br>
-	<input type="radio" name="privacy_input" id="privacy_input_2" value="2">
+	<input type="radio" name="privacy_input" id="privacy_input_2" value="2"<?php if($privacy == 2){echo " checked";}?>>
 	<label for="privacy_input_2">Sisseloginud kasutajatele</label>
 	<br>
-	<input type="radio" name="privacy_input" id="privacy_input_3" value="3">
+	<input type="radio" name="privacy_input" id="privacy_input_3" value="3"<?php if($privacy == 3){echo " checked";}?>>
 	<label for="privacy_input_3">Avalik (kõik näevad)</label>
 	<br>
 	<input type="submit" name="photo_submit" id="photo_submit" value="Lae üles">

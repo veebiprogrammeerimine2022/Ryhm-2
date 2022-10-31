@@ -12,14 +12,21 @@
 		header("Location: page.php");
 		exit();
 	}
-
+	
+	$privacy = 2;
+	require_once "fnc_gallery.php";
+	
+	
 	require_once "header.php";
 	
 	echo "<p>Sisse loginud: " .$_SESSION["firstname"] ." " .$_SESSION["lastname"] .".</p> \n";
 ?>
 <ul>
 	<li><a href="?logout=1">Logi välja</a></li>
-	<li><a href="gallery_photo_upload.php">Fotode galeriisse üleslaadimine</a></li>
-	<li><a href="gallery_public.php">Avalike fotode galerii</a></li>
+	<li><a href="home.php">Avalehele</a></li>
 </ul>
-<?php require_once "footer.php";?>
+
+<?php
+	require_once "footer.php";
+	echo read_public_photos($privacy);
+?>
