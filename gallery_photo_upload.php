@@ -23,9 +23,11 @@
 	$privacy = 1;
 	
 	if($_SERVER["REQUEST_METHOD"] == "POST"){
-		$alt = test_input($_POST["alt_input"]);
-		$privacy = filter_var($_POST["privacy_input"], FILTER_VALIDATE_INT);
+		
 		if(isset($_POST["photo_submit"])){
+			$alt = test_input($_POST["alt_input"]);
+			$privacy = filter_var($_POST["privacy_input"], FILTER_VALIDATE_INT);
+			
 			//var_dump($_POST);
 			//var_dump($_FILES);
 			
