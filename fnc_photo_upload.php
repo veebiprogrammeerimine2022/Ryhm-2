@@ -65,7 +65,6 @@
 				$cut_y = round(($image_h - $cut_size_h) / 2);
 			}
 		}
-	}
 		
 		$temp_image = imagecreatetruecolor($new_w, $new_h);
 		//säilitame vajadusel läbipaistvuse (png ja gif piltide jaoks
