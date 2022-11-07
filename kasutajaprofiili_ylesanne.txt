@@ -1,0 +1,23 @@
+
+
+Loote uue lehe: user_profile.php
+
+
+Sellel vorm profiili loomiseks/muutmiseks.
+Lehe avamisel tuleb sessioonimuutujatest lugeda praegused värvid.
+
+Vormis sisendid:
+
+<input type="color" name="bg_color_input">
+<input type="color" name="txt_color_input">
+
+<textarea name="user_description" rows="5" cols="51" placeholder="Minu lühikirjeldus"></textarea>
+
+Kui vajutada submit, siis profiil salvestatakse (koos kasutaja id-ga, mille saate sessioonimuutujast!!!).
+
+Kui nüüd sisse logitakse, siis loetakse ka profiili. Kui see on olemas, siis võetakse värvid andmebaasist, muidu jäävad need, mis juba määratud.
+
+Kui kasutaja soovib profiili muuta, siis samale lehele.
+See aga tähendab, et profiili salvestamisel tuleb alati (ka esimesel korral) kõigepealt kontrollida, kas sellel kasutajal on või ei ole juba profiil. 
+Kui pole, siis SQL lauses "INSERT ...."
+Kui on, siis SQL lauses "UPDATE ...."
