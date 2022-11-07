@@ -26,6 +26,8 @@
 	} else {
 		$page = $_GET["page"];
 	}
+	
+	$_SESSION["gallery_own_page"] = $page;
 		
 	$style_sheets = ["style/gallery.css"];
 	

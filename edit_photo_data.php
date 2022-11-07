@@ -65,6 +65,7 @@
 <ul>
 	<li><a href="?logout=1">Logi välja</a></li>
 	<li><a href="home.php">Avalehele</a></li>
+	<li><a href="gallery_own.php<?php echo "?page=" .$_SESSION["gallery_own_page"];?>">Tagasi oma piltide galeriisse</a></li>
 </ul>
 <img src="<?php echo $gallery_photo_normal_folder .$photo_data["filename"];?>" alt="<?php echo $alt; ?>">
 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ."?id=" .$id;?>">
