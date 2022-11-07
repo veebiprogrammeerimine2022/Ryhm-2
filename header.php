@@ -4,10 +4,12 @@
 	<meta charset="utf-8">
 	<title>Vinge veebisüsteem</title>
 	<?php
-		if(isset($style_sheets)){
-			echo '<link rel="stylesheet" href="';
-			echo $style_sheets;
-			echo '">' ."\n";
+		if(isset($style_sheets) and !empty($style_sheets)){
+			foreach($style_sheets as $style){
+				echo '<link rel="stylesheet" href="';
+				echo $style;
+				echo '">' ."\n";
+			}
 		}
 	?>
 </head>
