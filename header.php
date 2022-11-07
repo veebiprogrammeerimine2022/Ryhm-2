@@ -3,6 +3,12 @@
 <head>
 	<meta charset="utf-8">
 	<title>Vinge veebisüsteem</title>
+	<style>
+		body {
+			background-color: <?php echo $_SESSION["user_bg_color"]; ?>;
+			color: <?php echo $_SESSION["user_txt_color"]; ?>
+		}
+	</style>
 	<?php
 		if(isset($style_sheets) and !empty($style_sheets)){
 			foreach($style_sheets as $style){

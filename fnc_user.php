@@ -55,6 +55,9 @@
 					$_SESSION["user_id"] = $id_from_db;
 					$_SESSION["firstname"] = $firstname_from_db;
 					$_SESSION["lastname"] = $lastname_from_db;
+					//lisame natuke lehe välimust
+					$_SESSION["user_bg_color"] = "#DDDDDD";
+					$_SESSION["user_txt_color"] = "#333399";
 					$stmt->close();
 					$conn->close();
 					header("Location: home.php");
