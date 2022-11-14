@@ -23,6 +23,7 @@
 		return $name_prefix .$timestamp ."." .$file_type;
 	}
 	
+	//lisasin klassi
 	function create_image($file, $file_type){
 		$temp_image = null;
 		if($file_type == "jpg"){
@@ -37,6 +38,7 @@
 		return $temp_image;
 	}
 	
+	//lisasin klassi
 	function resize_photo($temp_photo, $w, $h, $keep_orig_proportion = true){
 		$image_w = imagesx($temp_photo);
 		$image_h = imagesy($temp_photo);

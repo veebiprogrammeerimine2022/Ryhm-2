@@ -15,6 +15,7 @@
 	
 	require_once "fnc_photo_upload.php";
 	require_once "fnc_general.php";
+	require_once "classes/Photoupload.class.php";
 
 	$file_type = null;
 	$photo_error = null;
@@ -54,9 +55,16 @@
 				if(empty($photo_error)){
 					//teeme pildi "väiksemaks"
 					//loome pikslikogumi (justkui avame foto PhotoShopis)
-					$temp_photo = create_image($_FILES["photo_input"]["tmp_name"], $file_type);
+					//$temp_photo = create_image($_FILES["photo_input"]["tmp_name"], $file_type);
+					
+					//klass
+					$upload = new Photoupload($_FILES["photo_input"], $file_type);
+					
 					//muudame pildi suurust
-					$normal_photo = resize_photo($temp_photo, $normal_photo_max_w, $normal_photo_max_h);
+					//$normal_photo = resize_photo($temp_photo, $normal_photo_max_w, $normal_photo_max_h);
+					
+					$upload->resize_photo($normal_photo_max_w, $normal_photo_max_h);
+					
 					//salvestame v'iksemaks tehtud pildi
 					$photo_error = save_photo($normal_photo, $gallery_photo_normal_folder .$photo_file_name, $file_type);
 					if(empty($photo_error)){
