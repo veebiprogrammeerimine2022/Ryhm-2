@@ -3,9 +3,7 @@
 	require_once "../../../config_vp2022.php";
 	require_once "fnc_user.php";
 	require_once "fnc_gallery.php";
-	require_once "classes/Example.class.php";
-	
-	
+	/* require_once "classes/Example.class.php";
 	//klassi demo
 	$our_variable = new Example(9);
 	$my_variable = new Example(4);
@@ -13,7 +11,7 @@
 	$my_variable->add();
 	unset($our_variable);
 	unset($my_variable);
-	echo $our_variable->public_value;
+	echo $our_variable->public_value; */
 	
 	//echo $server_host;
 	$author_name = "Andrus Rinde";

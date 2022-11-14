@@ -4,6 +4,7 @@
 		private $file_type; //alguses saadame klassile, hiljem uurib klass selle ise välja
 		private $temp_photo;
 		private $new_temp_photo;
+		public $error = null;
 		
 		function __construct($photo, $type){
 			$this->photo_to_upload = $photo;
@@ -25,7 +26,7 @@
 			return $temp_image;
 		}
 		
-		function resize_photo($w, $h, $keep_orig_proportion = true){
+		public function resize_photo($w, $h, $keep_orig_proportion = true){
 			$image_w = imagesx($this->temp_photo);
 			$image_h = imagesy($this->temp_photo);
 			$new_w = $w;
@@ -61,6 +62,36 @@
 			imagefill($this->new_temp_photo, 0, 0, $trans_color);
 			//teeme originaalist väiksele koopia
 			imagecopyresampled($this->new_temp_photo, $this->temp_photo, 0, 0, $cut_x, $cut_y, $new_w, $new_h, $cut_size_w, $cut_size_h);
+		}
+		
+		public function save_photo($target){
+			$this->error = null;
+			if($this->file_type == "jpg"){
+				if(imagejpeg($this->new_temp_photo, $target, 95) == false){
+					$this->error = "Pildifaili salvestamine ebaõnnestus!";
+				}
+			}
+			if($this->file_type == "png"){
+				if(imagepng($this->new_temp_photo, $target, 6) == false){
+					$this->error = "Pildifaili salvestamine ebaõnnestus!";
+				}
+			}
+			if($this->file_type == "gif"){
+				if(imagegif($this->new_temp_photo, $target) == false){
+					$this->error = "Pildifaili salvestamine ebaõnnestus!";
+				}
+			}
+			//kustutan pikslikogumi, vabastan mälu
+			imagedestroy($this->new_temp_photo);
+			return $this->error;
+		}
+		
+		public function move_original_photo($target){
+			$this->error = null;
+			if(move_uploaded_file($this->photo_to_upload["tmp_name"], $target) == false){
+				$this->error = "Originaalfaili salvestamine ebaõnnestus!";
+			}
+			return $this->error;
 		}
 		
 	}//class lõppeb
