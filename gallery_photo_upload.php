@@ -58,7 +58,7 @@
 					//$temp_photo = create_image($_FILES["photo_input"]["tmp_name"], $file_type);
 					
 					//klass
-					$upload = new Photoupload($_FILES["photo_input"], $file_type);
+					$upload = new Photoupload($_FILES["photo_input"]);
 					
 					//muudame pildi suurust
 					//$normal_photo = resize_photo($temp_photo, $normal_photo_max_w, $normal_photo_max_h);
@@ -94,6 +94,7 @@
 					} else {
 						$photo_error = "Pildi üleslaadimisel tekkis tõrkeid!";
 					}
+					unset($upload);
 				}
 			}
 		}//if photo_submit

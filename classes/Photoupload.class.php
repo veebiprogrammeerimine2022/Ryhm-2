@@ -6,10 +6,35 @@
 		private $new_temp_photo;
 		public $error = null;
 		
-		function __construct($photo, $type){
+		function __construct($photo){
 			$this->photo_to_upload = $photo;
-			$this->file_type = $type; //hiljem on selle jaoks klassil oma funktsioon
-			$this->temp_photo = $this->create_image($this->photo_to_upload["tmp_name"], $this->file_type); 
+			$this->check_file_type;
+			if(empty($this->error){
+				$this->temp_photo = $this->create_image($this->photo_to_upload["tmp_name"], $this->file_type);
+			}
+		}
+		
+		function __destruct(){
+			@imagedestroy($this->temp_photo);
+			@imagedestroy($this->new_temp_photo);
+		}
+		
+		private function check_file_type(){
+			$image_check = getimagesize($this->photo_to_upload["tmp_name"]);
+			if($image_check !== false){
+				if($image_check["mime"] == "image/jpeg"){
+					$this->image_type = "jpg";
+				}
+				if($image_check["mime"] == "image/png"){
+					$this->image_type = "png";
+				}
+				if($image_check["mime"] == "image/gif"){
+					$this->image_type = "gif";
+				}
+			} else {
+				$this->error = "See pole pildifail!";
+			}
+			return $this->error;
 		}
 		
 		private function create_image($file, $file_type){
