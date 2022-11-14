@@ -19,6 +19,7 @@
 ?>
 <ul>
 	<li><a href="?logout=1">Logi välja</a></li>
+	<li><a href="user_profile.php">Minu kasutajaprofiil</a></li>
 	<li><a href="gallery_photo_upload.php">Fotode galeriisse üleslaadimine</a></li>
 	<li><a href="gallery_public.php">Avalike fotode galerii</a></li>
 	<li><a href="gallery_own.php">Minu oma pildid</a></li>
