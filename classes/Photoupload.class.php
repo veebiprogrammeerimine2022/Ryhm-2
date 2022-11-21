@@ -1,15 +1,16 @@
 <?php
 	class Photoupload {
 		private $photo_to_upload;
-		private $file_type; //alguses saadame klassile, hiljem uurib klass selle ise välja
+		public $file_type; //alguses saadame klassile, hiljem uurib klass selle ise välja
 		private $temp_photo;
 		private $new_temp_photo;
 		public $error = null;
+		public $file_name = null;
 		
 		function __construct($photo){
 			$this->photo_to_upload = $photo;
-			$this->check_file_type;
-			if(empty($this->error){
+			$this->check_file_type();
+			if(empty($this->error)){
 				$this->temp_photo = $this->create_image($this->photo_to_upload["tmp_name"], $this->file_type);
 			}
 		}
@@ -21,20 +22,49 @@
 		
 		private function check_file_type(){
 			$image_check = getimagesize($this->photo_to_upload["tmp_name"]);
-			if($image_check !== false){
+			if($image_check){
+				//var_dump($image_check);
 				if($image_check["mime"] == "image/jpeg"){
-					$this->image_type = "jpg";
+					$this->file_type = "jpg";
 				}
-				if($image_check["mime"] == "image/png"){
-					$this->image_type = "png";
+				elseif($image_check["mime"] == "image/png"){
+					$this->file_type = "png";
 				}
-				if($image_check["mime"] == "image/gif"){
-					$this->image_type = "gif";
+				elseif($image_check["mime"] == "image/gif"){
+					$this->file_type = "gif";
+				} else {
+					$this->error = "Tegemist pole veebis kasutatava failitüübiga!";
 				}
 			} else {
 				$this->error = "See pole pildifail!";
 			}
 			return $this->error;
+		}
+		
+		public function check_allowed_type($allowed_types){
+			//$error = null;
+			$image_check = getimagesize($this->photo_to_upload["tmp_name"]);
+			if($image_check !== false){
+				if(!in_array($image_check["mime"], $allowed_types)){
+					//$error = "Valitud fail pole lubatud tüüpi!";
+					$this->error = "Valitud fail pole lubatud tüüpi!";
+				}
+			}
+			//$this->error = $error;
+			//return $error;
+			return $this->error;
+		}
+		
+		public function check_size($limit){
+			if($this->photo_to_upload["size"] > $limit){
+				$this->error = "Valitud fail on liiga suur!";
+			}
+			return $this->error;
+		}
+		
+		public function create_filename($name_prefix){
+			$timestamp = microtime(1) * 10000;
+			$this->file_name = $name_prefix .$timestamp ."." .$this->file_type;
 		}
 		
 		private function create_image($file, $file_type){
@@ -50,6 +80,8 @@
 			}
 			return $temp_image;
 		}
+		
+		
 		
 		public function resize_photo($w, $h, $keep_orig_proportion = true){
 			$image_w = imagesx($this->temp_photo);
