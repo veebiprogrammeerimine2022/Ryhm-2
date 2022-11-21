@@ -1,5 +1,7 @@
 <?php
-	session_start();
+	//session_start();
+	require_once "classes/SessionManager.class.php";
+	SessionManager::sessionStart("vp", 0, "/~rinde/vp_2022/Ryhm-2/", "greeny.cs.tlu.ee");
 	require_once "../../../config_vp2022.php";
 	require_once "fnc_user.php";
 	require_once "fnc_gallery.php";
