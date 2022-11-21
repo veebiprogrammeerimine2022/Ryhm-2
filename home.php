@@ -1,5 +1,6 @@
 <?php
 	session_start();
+	
 	//kontrollin, kas oleme sisse loginud
 	if(!isset($_SESSION["user_id"])){
 		header("Location: page.php");
