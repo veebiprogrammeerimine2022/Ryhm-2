@@ -21,6 +21,48 @@ function closeModal(){
 }
 
 _____________________________________________________________________________________________________
+	photoId = e.target.dataset.id;
+	for(let i = 1; i < 6; i ++){
+		document.querySelector("#rate" + i).checked = false;
+	}
+	
+	
+	
+
+
+function storeRating(){
+	console.log("Hindame");
+	let rating = 0;
+	for(let i = 1; i < 6; i ++){
+		if(document.querySelector("#rate" + i).checked){
+			rating = i;
+		}
+		console.log(rating);
+	}
+	if(rating > 0){
+		//salvestame
+		//saadame info serverisse PHP skriptile, mis salvestab ja tagastab kliendile värskendatud keskmise hinde
+		//AJAX
+		//Asynchroneus Javascript And XML
+		let webRequest = new XMLHttpRequest();
+		//oleme valmis eduks ja kui asjad toimivad, siis jälgime, kas õnnestus
+		webRequest.onreadystatechange = function(){
+			if(this.readyState == 4 && this.status == 200){
+				//kõik, mida teha, kui tuli vastus
+				document.querySelector("#avgrating").innerHTML = this.responseText;
+				document.querySelector("#storeRating").removeEventListener("click", storeRating);
+			}
+		};
+		//paneme tööle
+		//    store_photorating.php?photo=33&rating=4
+		webRequest.open("GET", "store_photorating.php?photo=" + photoId + "&rating=" + rating, true);
+		webRequest.send();
+		
+	}//if rating > 0 lõppeb
+}
+
+
+_____________________________________________________________________
 
 CREATE TABLE `if21_rinde`.`vp_photoratings` ( `id` INT(11) NOT NULL AUTO_INCREMENT , `photoid` INT(11) NOT NULL , `userid` INT(11) NOT NULL , `rating` INT(1) NOT NULL , `added` DATE NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`)) ENGINE = InnoDB;
 

@@ -9,12 +9,13 @@
         //$stmt = $conn->prepare("SELECT filename, alttext FROM vp_photos_2 WHERE privacy >= ? AND deleted IS NULL");
 		//LIMIT x   - mitu näidata
 		//LIMIT x,y - mitu vahele jätta, mitu näidata
-		$stmt = $conn->prepare("SELECT vp_photos_2.filename, vp_photos_2.alttext, vp_users_2.firstname, vp_users_2.lastname FROM vp_photos_2 JOIN vp_users_2 ON vp_photos_2.userid = vp_users_2.id WHERE vp_photos_2.privacy >= ? AND vp_photos_2.deleted IS NULL GROUP BY vp_photos_2.id ORDER BY vp_photos_2.id DESC LIMIT ?,?");
+		$stmt = $conn->prepare("SELECT vp_photos_2.id, vp_photos_2.filename, vp_photos_2.alttext, vp_users_2.firstname, vp_users_2.lastname FROM vp_photos_2 JOIN vp_users_2 ON vp_photos_2.userid = vp_users_2.id WHERE vp_photos_2.privacy >= ? AND vp_photos_2.deleted IS NULL GROUP BY vp_photos_2.id ORDER BY vp_photos_2.id DESC LIMIT ?,?");
         echo $conn->error;
         $stmt->bind_param("iii", $privacy, $skip, $limit);
-        $stmt->bind_result($filename_from_db, $alttext_from_db, $firstname_from_db, $lastname_from_db);
+        $stmt->bind_result($id_from_db, $filename_from_db, $alttext_from_db, $firstname_from_db, $lastname_from_db);
         $stmt->execute();
         while($stmt->fetch()){
+			//<img src="kataloog/pilt.jpg" alt="ilus pilt" data-filename="pilt.jpg" data-id="35" class="thumbs">
 			$photo_html .= '<div class="thumbgallery">' ."\n";
 			$photo_html .= '<img src="' .$GLOBALS["gallery_photo_thumbnail_folder"] .$filename_from_db .'" alt="';
             if(empty($alttext_from_db)){
@@ -22,7 +23,7 @@
             } else {
                 $photo_html .= $alttext_from_db;
             }
-            $photo_html .= '" class="thumbs">' ."\n";
+            $photo_html .= '" data-filename="' .$filename_from_db .'" data-id="' .$id_from_db .'" class="thumbs">' ."\n";
             $photo_html .= "<p>" .$firstname_from_db ." " .$lastname_from_db ."</p> \n";
 			$photo_html .= "</div> \n";
         }

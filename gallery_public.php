@@ -29,7 +29,9 @@
 		$page = $_GET["page"];
 	}
 		
-	$style_sheets = ["style/gallery.css"];
+	$style_sheets = ["style/gallery.css", "style/modal.css"];
+	
+	$javascripts = ["javascript/modal.js"];
 	
 	require_once "header.php";
 	
