@@ -39,6 +39,19 @@
 	<li><a href="?logout=1">Logi välja</a></li>
 	<li><a href="home.php">Avalehele</a></li>
 </ul>
+<hr>
+
+<dialog id="modal" class="modalarea">
+	<span id="modalclose" class="modalclose">&times;</span>
+	<div class="modalhorizontal">
+		<div class="modalvertical">
+			<p id="modalcaption"></p>
+			<img id="modalimage" src="pics/empty.png" alt="galeriipilt">
+		</div>
+	</div>
+</dialog>
+
+<h2>Galerii</h2>
 <p>
 <?php
 	//Eelmine leht | Järgmine leht
