@@ -27,13 +27,13 @@ function closeModal(){
 }
 
 function storeRating(){
-	//console.log("Hindame");
+	console.log("Hindame");
 	let rating = 0;
 	for(let i = 1; i < 6; i ++){
 		if(document.querySelector("#rate" + i).checked){
 			rating = i;
 		}
-		//console.log(rating);
+		console.log(rating);
 	}
 	if(rating > 0){
 		//salvestame
@@ -46,6 +46,7 @@ function storeRating(){
 			if(this.readyState == 4 && this.status == 200){
 				//kõik, mida teha, kui tuli vastus
 				document.querySelector("#avgrating").innerHTML = this.responseText;
+				console.log(this.responseText);
 				document.querySelector("#storeRating").removeEventListener("click", storeRating);
 			}
 		};
