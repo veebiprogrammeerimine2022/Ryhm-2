@@ -20,7 +20,7 @@
 	//küpsised, enne veebilehe algust!!!!
 	//cookie nimi, väärtus, aegumine sekundites, kataloog serveris, domeen, kas https, kas juurdepääs ainult üle veebi
 	//https jaoks saab  teha ka nii, kui pole kindel: isset($_SERVER["HTTPS"])
-	setcookie("lastvisitor", $_SESSION["firstname"] ." " .$_SESSION["lastname"], (86400 * 7), "/~rinde/vp_2022/Ryhm-2/", "greeny.cs.tlu.ee", true, true);
+	setcookie("lastvisitor", $_SESSION["firstname"] ." " .$_SESSION["lastname"], time() + (86400 * 7), "/~rinde/vp_2022/Ryhm-2/", "greeny.cs.tlu.ee", true, true);
 	//cookie kustutamine
 	//setcookie     aegumine negattivne:   time() - 3000
 	$last_visitor = "pole teada";

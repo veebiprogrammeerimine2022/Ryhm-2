@@ -77,6 +77,8 @@
 		}//if photo_submit
 	}//if method==POST 
 
+	$javascripts = ["javascript/check_file_size.js"];
+	
 	require_once "header.php";
 	
 	echo "<p>Sisse loginud: " .$_SESSION["firstname"] ." " .$_SESSION["lastname"] .".</p> \n";
@@ -103,7 +105,7 @@
 	<label for="privacy_input_3">Avalik (kõik näevad)</label>
 	<br>
 	<input type="submit" name="photo_submit" id="photo_submit" value="Lae üles">
-	<span><?php echo $photo_error; ?></span>
+	<span id="errorPlace"><?php echo $photo_error; ?></span>
 </form>
 
 <?php require_once "footer.php";?>

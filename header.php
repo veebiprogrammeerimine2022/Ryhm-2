@@ -17,6 +17,16 @@
 				echo '">' ."\n";
 			}
 		}
+		
+		//javascripti jaoks
+		//<script src="javascript/check_file_size.js" defer></script>
+		if(isset($javascripts) and !empty($javascripts)){
+			foreach($javascripts as $js){
+				echo '<script src="';
+				echo $js;
+				echo '" defer></script>' ."\n";
+			}
+		}
 	?>
 </head>
 <body>
