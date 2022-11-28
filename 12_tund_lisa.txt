@@ -1,0 +1,35 @@
+let photoDir = "gallery_upload_normal/";
+
+window.onload = function(){
+	//kõik pisipildid paneme dialoogiakent avama
+	let allThumbs = document.querySelector(".gallery").querySelectorAll(".thumbs");
+	for(let i = 0; i < allThumbs.length; i ++){
+		allThumbs[i].addEventListener("click", openModal);
+	}
+	document.querySelector("#modalclose").addEventListener("click", closeModal);
+	document.querySelector("#modalimage").addEventListener("click", closeModal);
+}
+
+function openModal(e){
+	document.querySelector("#modalimage").src = photoDir + e.target.dataset.filename;
+	document.querySelector("#modalcaption").innerHTML = e.target.alt;
+	document.querySelector("#modal").showModal();
+}
+
+function closeModal(){
+	document.querySelector("#modal").close();
+}
+
+_____________________________________________________________________________________________________
+
+CREATE TABLE `if21_rinde`.`vp_photoratings` ( `id` INT(11) NOT NULL AUTO_INCREMENT , `photoid` INT(11) NOT NULL , `userid` INT(11) NOT NULL , `rating` INT(1) NOT NULL , `added` DATE NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+				<br>
+                <input id="rate1" name="rating" type="radio" value="1"><label for="rate1">1</label>
+                <input id="rate2" name="rating" type="radio" value="2"><label for="rate2">2</label>
+                <input id="rate3" name="rating" type="radio" value="3"><label for="rate3">3</label>
+                <input id="rate4" name="rating" type="radio" value="4"><label for="rate4">4</label>
+                <input id="rate5" name="rating" type="radio" value="5"><label for="rate5">5</label>
+                <button id="storeRating" type="button">Salvesta hinne</button>
+                <br>
+                <p id="avgrating"></p>
